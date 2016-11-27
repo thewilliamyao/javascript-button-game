@@ -3,6 +3,9 @@ Switch all buttons off to win!
 
 This is a fun little game I made for a coding challenge.
 
+## Demo:
+https://thewilliamyao.github.io/javascript-button-game/
+
 ## Features:
 1. Decent looking CSS
 2. Randomnized button association
