@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="game.js"></script>
+</head>
+<body>
+    <div class="start">
+        <button class="menu-button" onclick="startGame()">start</button>
+    </div>
+    <div class="game-wrapper">
+        <div class="play-button">
+            <button class="on" id="0" onclick="handlePress(0)"></button>
+            <button class="on" id="1" onclick="handlePress(1)"></button>
+        </div>
+        <div class="play-button">
+            <button class="on" id="2" onclick="handlePress(2)"></button>
+            <button class="on" id="3" onclick="handlePress(3)"></button>
+        </div>
+    </div>
+    <div class="end">
+        <button class="menu-button" onclick="startGame()">play again!</button>
+    </div>
+</body>
+</html>
