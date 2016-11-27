@@ -22,9 +22,10 @@ p {
 }
 
 .game-wrapper button {
-    border: 2px solid #FFFFFF;
+    border: 0px;
+    background-color: #000000;
     margin: 6%;
-    width: 130px;
+    width: 160px;
     height: 100px;
 }
 
@@ -69,10 +70,17 @@ p {
     background-color: #000000;
 }
 
+.on, .off {
+    background-size: 160px 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .on {
-    background-color: #000000;
+    background-image: url("on.png");
 }
 
 .off {
-    background-color: #FFFFFF;
+    background-image: url("off.png");
+    opacity: 0.5;
 }

@@ -4,8 +4,10 @@
 var association = new Map();
 var state = [true, true, true, true]; //true = on, false = off
 var moves = 0;
+var inGame = false;
 
 function startGame() {
+    inGame = true;
     console.log("startedGame");
     for (i = 0; i < 4; i++) {
         association.set(i, associateButton(i));
@@ -28,6 +30,10 @@ function associateButton(button) {
 }
 
 function handlePress(pressedId) {
+    if (!inGame) {
+        return false;
+    }
+
     moves++;
     document.getElementById("moves-made").innerHTML = "Moves made: " + moves;
     console.log("handlingPress");
@@ -66,6 +72,7 @@ function finishGame() {
     console.log("won");
     document.getElementById("moves").innerHTML = moves;
     document.querySelector(".end").style.display = "block";
+    inGame = false;
 }
 
 function restartGame() {
