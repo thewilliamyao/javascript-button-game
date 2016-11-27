@@ -3,15 +3,16 @@
  */
 var association = new Map();
 var state = [true, true, true, true]; //true = on, false = off
+var moves = 0;
 
 function startGame() {
     console.log("startedGame");
     for (i = 0; i < 4; i++) {
         association.set(i, associateButton(i));
-        state[i] = true; //in case of restart
     }
     document.querySelector(".game-wrapper").style.display = "block";
     document.querySelector(".start").style.display = "none";
+    document.getElementById("moves-made").innerHTML = "Moves made: " + moves;
     console.log("youMayBegin");
 }
 
@@ -27,6 +28,8 @@ function associateButton(button) {
 }
 
 function handlePress(pressedId) {
+    moves++;
+    document.getElementById("moves-made").innerHTML = "Moves made: " + moves;
     console.log("handlingPress");
     state[pressedId] = !state[pressedId];
     handleCss(pressedId);
@@ -61,5 +64,23 @@ function checkState() {
 
 function finishGame() {
     console.log("won");
+    document.getElementById("moves").innerHTML = moves;
     document.querySelector(".end").style.display = "block";
+}
+
+function restartGame() {
+    //Reset Button State
+    var myButtons = document.querySelectorAll(".off");
+    for (var i = 0; i < myButtons.length; i++) {
+        myButtons[i].className = "on";
+    }
+    for (i = 0; i < 4; i++) {
+        state[i] = true;
+    }
+
+    moves = 0;
+
+    document.querySelector(".end").style.display = "none";
+
+    startGame();
 }

@@ -3,12 +3,12 @@ body {
     font-family: 'PT Mono', serif;
 }
 
-/*.wrapper {*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
-/*}*/
 button {
     cursor: pointer;
+}
+
+p {
+    color: #FFFFFF;
 }
 
 .game-wrapper {
@@ -23,7 +23,7 @@ button {
 
 .game-wrapper button {
     border: 2px solid #FFFFFF;
-    margin: 20px 5%;
+    margin: 6%;
     width: 130px;
     height: 100px;
 }
@@ -50,18 +50,23 @@ button {
     background-color: #FFFFFF;
 }
 
-.start, .end {
+.start {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    padding: 16px;
     text-align: center;
 }
 
 .end {
     display: none;
+    z-index: 1;
+    text-align: center;
+}
+
+.menu-background {
+    background-color: #000000;
 }
 
 .on {

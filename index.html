@@ -6,9 +6,11 @@
 </head>
 <body>
     <div class="start">
+        <p>Turn all buttons off to win!</p>
         <button class="menu-button" onclick="startGame()">start</button>
     </div>
     <div class="game-wrapper">
+        <p id="moves-made"></p>
         <div class="play-button">
             <button class="on" id="0" onclick="handlePress(0)"></button>
             <button class="on" id="1" onclick="handlePress(1)"></button>
@@ -19,7 +21,11 @@
         </div>
     </div>
     <div class="end">
-        <button class="menu-button" onclick="startGame()">play again!</button>
+        <div class="menu">
+            <p id="message">You won with <B id="moves"></B> moves!</p>
+            <button class="menu-button" onclick="restartGame()">play again!</button>
+            <div class="menu-background"></div>
+        </div>
     </div>
 </body>
 </html>
