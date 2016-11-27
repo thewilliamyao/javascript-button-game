@@ -15,4 +15,4 @@ https://thewilliamyao.github.io/javascript-button-game/
 6. Dank meme (just one)
 7. Allow multiple association, even when it's imporssible
 8. An option to give up when user made more than 35 moves
-
+9. Allow user to go back and change number of buttons and associations
