@@ -43,11 +43,17 @@ function createGame() {
 
 //Check if number of buttons and association is valid
 function ErrCheck() {
-    if (buttons <= 0 || buttons == null) {
-        document.getElementById("error-message").innerHTML = "Please enter a positive number of buttons!";
+    if (isNaN(buttons) || isNaN(associations) || buttons % 1 != 0 || associations % 1 != 0) {
+        document.getElementById("error-message").innerHTML = "Please enter integers for the fields below!";
+        return false;
+    } else if (buttons <= 0 || buttons == null ) {
+        document.getElementById("error-message").innerHTML = "Please enter a positive integer of buttons!";
+        return false;
+    } else if (buttons >= 100) {
+        document.getElementById("error-message").innerHTML = "C'mon now, you weren't seriously planning to do a puzzle with more than 100 buttons!";
         return false;
     } else if (buttons <= associations) {
-        document.getElementById("error-message").innerHTML = "Number of association cannot be larger than number of buttons!";
+        document.getElementById("error-message").innerHTML = "Number of association must be smaller than number of buttons!";
         return false;
     } else {
         return true;
@@ -168,6 +174,7 @@ function settings() {
     document.querySelector(".start").style.display = "block";
     document.querySelector(".end").style.display = "none";
     document.querySelector(".impossible").style.display = "none";
+    document.getElementById("error-message").innerHTML = "";
     
     //Destroy current buttons
     var toDelete = document.querySelectorAll(".play-button-wrapper");
