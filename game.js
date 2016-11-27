@@ -10,8 +10,8 @@ var moves = 0;
 var inGame = false;
 
 function startGame() {
-    buttons = document.getElementById("num-buttons").value;
-    associations = document.getElementById("num-associations").value;
+    buttons = parseInt(document.getElementById("num-buttons").value, 10);
+    associations = parseInt(document.getElementById("num-associations").value, 10);
 
     if (!ErrCheck()) {
         return false;
