@@ -13,6 +13,7 @@ p{
 
 .game-wrapper {
     display: none;
+    text-align: center;
 }
 
 .game-wrapper div, button {
@@ -25,7 +26,6 @@ p{
     display: none;
     border: 0px;
     background-color: #000000;
-    margin: 6%;
     width: 160px;
     height: 100px;
 }
@@ -34,8 +34,13 @@ p{
     border: 5px solid royalblue;
 }
 
-.game-wrapper > div {
-    display: block;
+.game-wrapper .play-button-wrapper{
+    display: inline-block;
+    margin: 0px 20px;
+}
+
+.game-wrapper .play-button-wrapper button{
+    margin: 40px 0px;
 }
 
 .menu-button {
@@ -85,4 +90,13 @@ p{
 .off {
     background-image: url("off.png");
     opacity: 0.5;
+}
+
+#settings {
+    margin-top: 20px;
+}
+
+#settings:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }

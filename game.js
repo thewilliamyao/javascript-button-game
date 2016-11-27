@@ -3,13 +3,13 @@
  */
 var buttons;
 var associations;
-var associationMap = new Map();
+var associationArray = []; //keep an array for each button's association
+var associationMap = new Map(); //maps each button to its associationArray
 var state = []; //true = on, false = off
 var moves = 0;
 var inGame = false;
 
 function startGame() {
-    console.log("startedGame");
     buttons = document.getElementById("num-buttons").value;
     associations = document.getElementById("num-associations").value;
     if (!ErrCheck()) {
@@ -17,28 +17,32 @@ function startGame() {
     }
 
     createButtons();
+    createGame();
+}
 
-    console.log("loadedGame");
-
+function createGame() {
     inGame = true;
-    for (y = 0; y < buttons; y++) {
-        document.getElementById(y).style.display = "inline-block";
-        state[y] = true;
+    for (i = 0; i < buttons; i++) {
+        document.getElementById(i).style.display = "block";
+        state[i] = true;
     }
 
-    for (i = 0; i < buttons; i++) {
-        associationMap.set(i, associateButton(i));
+    for (x = 0; x < buttons; x++) {
+        associationArray = associateButton(x);
+        associationMap.set(x, associationArray);
     }
     document.querySelector(".game-wrapper").style.display = "block";
     document.querySelector(".start").style.display = "none";
     document.getElementById("moves-made").innerHTML = "Moves made: " + moves;
-    console.log("youMayBegin");
 }
 
 //Check if number of buttons and association is valid
 function ErrCheck() {
-    if (buttons % 2 != 0 || buttons <= 0 || buttons == null) {
-        document.getElementById("error-message").innerHTML = "Please enter a positive even number of buttons!";
+    if (buttons <= 0 || buttons == null) {
+        document.getElementById("error-message").innerHTML = "Please enter a positive number of buttons!";
+        return false;
+    } else if (buttons <= associations) {
+        document.getElementById("error-message").innerHTML = "Number of association cannot be larger than number of buttons!";
         return false;
     } else {
         return true;
@@ -46,9 +50,9 @@ function ErrCheck() {
 }
 
 function createButtons() {
-    console.log("creating buttons");
     for (i = 0; i < buttons; i += 2) {
         var div = document.createElement("div");
+        div.className = "play-button-wrapper";
         var playButton = document.createElement("button");
         var playButton2 = document.createElement("button");
         playButton.className = "on";
@@ -59,76 +63,72 @@ function createButtons() {
         playButton2.setAttribute("id", i+1);
         playButton2.setAttribute("onclick", "handlePress(" + (i+1) + ")");
         div.appendChild(playButton2);
-        console.log("creating buttons");
         document.getElementById("wrapper").appendChild(div);
     }
-    // for (i = 0; i < buttons; i ++) {
-    //     var div = document.createElement("div");
-    //     var playButton = document.createElement("button");
-    //     playButton.className = "on";
-    //     playButton.setAttribute("id", i);
-    //     playButton.setAttribute("onclick", "handlePress(" + i + ")");
-    //     div.appendChild(playButton);
-    //     document.getElementById("wrapper").appendChild(div);
-    // }
-
 }
 
 //Randomly associate a button with another, makes sure it's not associated with itself
 function associateButton(button) {
-    var link = Math.floor(Math.random() * buttons);
+    var tempArray = [];
+    function generateAssociate() {
+        var link = Math.floor(Math.random() * buttons);
 
-    if (link == button) {
-        return associateButton(button);
-    } else {
-        return link;
+        if (link == button || tempArray.includes(link)) {
+            return generateAssociate(button);
+        } else {
+            return link;
+        }
     }
+    for (i = 0; i < associations; i++) {
+        tempArray[i] = generateAssociate();
+    }
+    return tempArray;
 }
 
 function handlePress(pressedId) {
     if (!inGame) {
         return false;
+    } else if (moves > 35) {
+        impossibleGame();
     }
 
     moves++;
     document.getElementById("moves-made").innerHTML = "Moves made: " + moves;
-    console.log("handlingPress");
     state[pressedId] = !state[pressedId];
     handleCss(pressedId);
-    state[associationMap.get(pressedId)] = !state[associationMap.get(pressedId)];
-    handleCss(associationMap.get(pressedId));
-    console.log("checkingIfWon");
+    for (i = 0; i < associations; i++) {
+        state[associationMap.get(pressedId)[i]] = !state[associationMap.get(pressedId)[i]];
+        handleCss(associationMap.get(pressedId)[i]);
+    }
     if (checkState()) {
         finishGame();
-    } else {
-        console.log("notWon");
-    }
+    } 
 }
 
 function handleCss(id) {
-    console.log("handling css of " + id);
     state[id]? document.getElementById(id).className = "on"
         : document.getElementById(id).className = "off";
 }
 
 function checkState() {
-    console.log("inCheckState");
     var won = true;
     for (x = 0; x < buttons; x++) {
         if (state[x] == true) {
             won = false;
         }
-        console.log(state[x]);
     }
-    console.log(won);
     return won;
 }
 
 function finishGame() {
-    console.log("won");
     document.getElementById("moves").innerHTML = moves;
     document.querySelector(".end").style.display = "block";
     inGame = false;
+}
+
+function impossibleGame() {
+    document.getElementById("impossible-moves").innerHTML = moves;
+    document.querySelector(".impossible").style.display = "block";
 }
 
 function restartGame() {
@@ -144,6 +144,19 @@ function restartGame() {
     moves = 0;
 
     document.querySelector(".end").style.display = "none";
+    document.querySelector(".impossible").style.display = "none";
 
-    startGame();
+    createGame();
+}
+
+function settings() {
+    document.querySelector(".game-wrapper").style.display = "none";
+    document.querySelector(".start").style.display = "block";
+    document.querySelector(".end").style.display = "none";
+    document.querySelector(".impossible").style.display = "none";
+    var toDelete = document.querySelectorAll(".play-button-wrapper");
+    for (var i = 0; i < toDelete.length; i++) {
+        toDelete[i].parentNode.removeChild(toDelete[i]);
+    }
+    moves = 0;
 }
