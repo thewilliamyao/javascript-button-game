@@ -6,19 +6,28 @@
 </head>
 <body>
     <div class="start">
+        <p id="error-message"></p>
         <p>Turn off all buttons to win!</p>
+        <div>
+            <input id="num-buttons" type="text" placeholder="Number of Buttons">
+            <input id="num-associations" type="text" placeholder="Number of Associations">
+        </div>
         <button class="menu-button" onclick="startGame()">start</button>
     </div>
-    <div class="game-wrapper">
+    <div class="game-wrapper" id="wrapper">
         <p id="moves-made"></p>
-        <div class="play-button">
-            <button class="on" id="0" onclick="handlePress(0)"></button>
-            <button class="on" id="1" onclick="handlePress(1)"></button>
-        </div>
-        <div class="play-button">
-            <button class="on" id="2" onclick="handlePress(2)"></button>
-            <button class="on" id="3" onclick="handlePress(3)"></button>
-        </div>
+        <!--<div class="play-button">-->
+            <!--<button class="on" id="0" onclick="handlePress(0)"></button>-->
+            <!--<button class="on" id="1" onclick="handlePress(1)"></button>-->
+        <!--</div>-->
+        <!--<div class="play-button">-->
+            <!--<button class="on" id="2" onclick="handlePress(2)"></button>-->
+            <!--<button class="on" id="3" onclick="handlePress(3)"></button>-->
+        <!--</div>-->
+        <!--<div class="play-button">-->
+            <!--<button class="on" id="4" onclick="handlePress(4)"></button>-->
+            <!--<button class="on" id="5" onclick="handlePress(5)"></button>-->
+        <!--</div>-->
     </div>
     <div class="end">
         <div class="menu">

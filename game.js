@@ -1,16 +1,33 @@
 /**
  * Created by wyao on 2016-11-27.
  */
-var association = new Map();
-var state = [true, true, true, true]; //true = on, false = off
+var buttons;
+var associations;
+var associationMap = new Map();
+var state = []; //true = on, false = off
 var moves = 0;
 var inGame = false;
 
 function startGame() {
-    inGame = true;
     console.log("startedGame");
-    for (i = 0; i < 4; i++) {
-        association.set(i, associateButton(i));
+    buttons = document.getElementById("num-buttons").value;
+    associations = document.getElementById("num-associations").value;
+    if (!ErrCheck()) {
+        return false;
+    }
+
+    createButtons();
+
+    console.log("loadedGame");
+
+    inGame = true;
+    for (y = 0; y < buttons; y++) {
+        document.getElementById(y).style.display = "inline-block";
+        state[y] = true;
+    }
+
+    for (i = 0; i < buttons; i++) {
+        associationMap.set(i, associateButton(i));
     }
     document.querySelector(".game-wrapper").style.display = "block";
     document.querySelector(".start").style.display = "none";
@@ -18,9 +35,48 @@ function startGame() {
     console.log("youMayBegin");
 }
 
+//Check if number of buttons and association is valid
+function ErrCheck() {
+    if (buttons % 2 != 0 || buttons <= 0 || buttons == null) {
+        document.getElementById("error-message").innerHTML = "Please enter a positive even number of buttons!";
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function createButtons() {
+    console.log("creating buttons");
+    for (i = 0; i < buttons; i += 2) {
+        var div = document.createElement("div");
+        var playButton = document.createElement("button");
+        var playButton2 = document.createElement("button");
+        playButton.className = "on";
+        playButton.setAttribute("id", i);
+        playButton.setAttribute("onclick", "handlePress(" + i + ")");
+        div.appendChild(playButton);
+        playButton2.className = "on"; //unfortunately, javascript is pass by object so i have to create another button
+        playButton2.setAttribute("id", i+1);
+        playButton2.setAttribute("onclick", "handlePress(" + (i+1) + ")");
+        div.appendChild(playButton2);
+        console.log("creating buttons");
+        document.getElementById("wrapper").appendChild(div);
+    }
+    // for (i = 0; i < buttons; i ++) {
+    //     var div = document.createElement("div");
+    //     var playButton = document.createElement("button");
+    //     playButton.className = "on";
+    //     playButton.setAttribute("id", i);
+    //     playButton.setAttribute("onclick", "handlePress(" + i + ")");
+    //     div.appendChild(playButton);
+    //     document.getElementById("wrapper").appendChild(div);
+    // }
+
+}
+
 //Randomly associate a button with another, makes sure it's not associated with itself
 function associateButton(button) {
-    var link = Math.floor(Math.random() * 4);
+    var link = Math.floor(Math.random() * buttons);
 
     if (link == button) {
         return associateButton(button);
@@ -39,8 +95,8 @@ function handlePress(pressedId) {
     console.log("handlingPress");
     state[pressedId] = !state[pressedId];
     handleCss(pressedId);
-    state[association.get(pressedId)] = !state[association.get(pressedId)];
-    handleCss(association.get(pressedId));
+    state[associationMap.get(pressedId)] = !state[associationMap.get(pressedId)];
+    handleCss(associationMap.get(pressedId));
     console.log("checkingIfWon");
     if (checkState()) {
         finishGame();
@@ -58,7 +114,7 @@ function handleCss(id) {
 function checkState() {
     console.log("inCheckState");
     var won = true;
-    for (x = 0; x < 4; x++) {
+    for (x = 0; x < buttons; x++) {
         if (state[x] == true) {
             won = false;
         }
@@ -81,7 +137,7 @@ function restartGame() {
     for (var i = 0; i < myButtons.length; i++) {
         myButtons[i].className = "on";
     }
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < buttons; i++) {
         state[i] = true;
     }
 
